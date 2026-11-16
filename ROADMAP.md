@@ -1,25 +1,25 @@
-# Lộ trình học Go trong 7 ngày
+# Learn Go in 7 days
 
-Nguồn chính: [A Tour of Go](https://go.dev/tour/welcome/1) (~100 trang, 7 module).
-Nguyên tắc: **đọc Tour để hiểu → gõ lại code trong repo này để nhớ**. Không chỉ chạy trên Playground.
+Main source: [A Tour of Go](https://go.dev/tour/welcome/1) (~100 pages, 7 modules).
+Rule of thumb: **read the Tour to understand → retype the code in this repo to remember it**. Don't just run it on the Playground.
 
-- Thời gian: ~2–3 giờ/ngày (ngày 5 và 7 nặng hơn, dự phòng 3–4 giờ).
-- Mỗi ngày 1 thư mục `day-N/`, mỗi bài tập 1 thư mục con có `main.go`.
-- Mỗi ngày kết thúc bằng 1 commit (`git commit -m "day N: ..."`).
+- Time: ~2–3 hours/day (days 5 and 7 are heavier, reserve 3–4 hours).
+- One `day-N/` directory per day, one subdirectory with a `main.go` per exercise.
+- Each day ends with one commit (`git commit -m "day N: ..."`).
 
-## Chuẩn bị (15 phút, làm ở Day 1)
+## Setup (15 minutes, done on Day 1)
 
 ```sh
-go version                      # đã có go1.27.1
+go version                      # go1.27.1 is already installed
 cd golearn && go mod init golearn
-go get golang.org/x/tour@latest # các exercise Pic, WordCount, Readers, Binary Trees import gói này
+go get golang.org/x/tour@latest # the Pic, WordCount, Readers and Binary Trees exercises import this package
 mkdir -p day-1/hello && cd day-1/hello
-# tạo main.go, rồi:
+# create main.go, then:
 go run .
-gofmt -l . ; go vet ./...       # chạy sau mỗi bài
+gofmt -l . ; go vet ./...       # run after every exercise
 ```
 
-Cấu trúc đích:
+Target layout:
 
 ```
 golearn/
@@ -30,195 +30,195 @@ golearn/
 └── day-7/ linkcheck/
 ```
 
-Muốn chạy Tour offline: `go install golang.org/x/website/tour@latest && $(go env GOPATH)/bin/tour`.
+To run the Tour offline: `go install golang.org/x/website/tour@latest && $(go env GOPATH)/bin/tour`.
 
-> **Lưu ý:** chạy local, `pic.Show` (Exercise Pic, Images) không hiện ảnh mà in một dòng `IMAGE:<base64>`.
-> Muốn xem ảnh thì dán code lên [Playground](https://go.dev/tour/moretypes/18); còn không thì chỉ cần code chạy không lỗi.
+> **Note:** when run locally, `pic.Show` (Exercise Pic, Images) doesn't display an image; it prints a single `IMAGE:<base64>` line.
+> To see the image, paste the code into the [Playground](https://go.dev/tour/moretypes/18); otherwise it's enough that the code runs without errors.
 
 ---
 
-## Day 1 — Nền tảng: package, biến, kiểu, hàm
+## Day 1 — Basics: packages, variables, types, functions
 
-**Tour:** `welcome` (cả module) + `basics/1 → 17` (~20 trang)
+**Tour:** `welcome` (the whole module) + `basics/1 → 17` (~20 pages)
 
-| Học | Trang |
+| Learn | Pages |
 |---|---|
-| Package, import, exported name (viết hoa) | basics/1–3 |
-| Hàm, multiple results, named returns | basics/4–7 |
-| `var`, `:=`, zero value, ép kiểu, type inference | basics/8–14 |
+| Packages, imports, exported names (capitalized) | basics/1–3 |
+| Functions, multiple results, named returns | basics/4–7 |
+| `var`, `:=`, zero values, type conversion, type inference | basics/8–14 |
 | Constants | basics/15–16 |
 
-**Làm trong repo:**
-1. `day-1/hello` — in "Hello, 世界" bằng `fmt`.
-2. `day-1/vars` — khai báo mọi kiểu cơ bản, in ra zero value của từng kiểu bằng `%v` và `%T`.
-3. `day-1/swap` — hàm `swap(a, b string) (string, string)` và 1 hàm dùng named return.
-4. `day-1/consts` — ép kiểu (cạnh huyền 3-4-5) và hằng số `1 << 100`.
+**Do in the repo:**
+1. `day-1/hello` — print "Hello, 世界" with `fmt`.
+2. `day-1/vars` — declare every basic type and print each type's zero value with `%v` and `%T`.
+3. `day-1/swap` — a `swap(a, b string) (string, string)` function and one function that uses named returns.
+4. `day-1/consts` — type conversion (the 3-4-5 hypotenuse) and the `1 << 100` constant.
 
-Hướng dẫn chi tiết từng bước và bộ khung code: [day-1/README.md](day-1/README.md).
+Step-by-step guide and starter code: [day-1/README.md](day-1/README.md).
 
-**Tự kiểm tra (trả lời được mà không nhìn lại):**
-- Vì sao `fmt.println` lỗi còn `fmt.Println` thì không?
-- `:=` dùng được ở đâu, không dùng được ở đâu?
-- Zero value của `int`, `string`, `bool`, `*int` là gì?
+**Self-check (answer without looking back):**
+- Why does `fmt.println` fail while `fmt.Println` doesn't?
+- Where can `:=` be used, and where can't it?
+- What are the zero values of `int`, `string`, `bool` and `*int`?
 
 ---
 
-## Day 2 — Luồng điều khiển
+## Day 2 — Flow control
 
-**Tour:** `flowcontrol/1 → 14` (14 trang)
+**Tour:** `flowcontrol/1 → 14` (14 pages)
 
-| Học | Trang |
+| Learn | Pages |
 |---|---|
-| `for` (3 dạng: đủ, như `while`, vô hạn) | 1–4 |
-| `if` với câu lệnh khởi tạo, `else` | 5–7 |
+| `for` (3 forms: full, `while`-style, infinite) | 1–4 |
+| `if` with an init statement, `else` | 5–7 |
 | **Exercise: Loops and Functions** (Newton's sqrt) | 8 |
-| `switch` (không cần `break`, switch không điều kiện) | 9–11 |
-| `defer`, thứ tự LIFO | 12–13 |
+| `switch` (no `break` needed, switch with no condition) | 9–11 |
+| `defer`, LIFO order | 12–13 |
 
-**Làm trong repo:**
-1. `day-2/sqrt` — Exercise của Tour: tự cài `Sqrt(x)` bằng Newton, so với `math.Sqrt`.
-2. `day-2/fizzbuzz` — dùng `switch` không điều kiện.
-3. `day-2/defer` — in 5 dòng bằng `defer` trong vòng lặp, đoán thứ tự trước khi chạy.
+**Do in the repo:**
+1. `day-2/sqrt` — the Tour exercise: implement `Sqrt(x)` yourself with Newton's method and compare it with `math.Sqrt`.
+2. `day-2/fizzbuzz` — use a `switch` with no condition.
+3. `day-2/defer` — print 5 lines with `defer` in a loop, and guess the order before running it.
 
-**Tự kiểm tra:**
-- Go không có `while` — viết lại vòng `while` bằng `for`.
-- `defer` đánh giá **tham số** lúc nào, chạy hàm lúc nào?
+**Self-check:**
+- Go has no `while`. Rewrite a `while` loop using `for`.
+- When does `defer` evaluate its **arguments**, and when does it run the function?
 
 ---
 
-## Day 3 — Pointer, struct, array, slice
+## Day 3 — Pointers, structs, arrays, slices
 
-**Tour:** `moretypes/1 → 18` (18 trang)
+**Tour:** `moretypes/1 → 18` (18 pages)
 
-| Học | Trang |
+| Learn | Pages |
 |---|---|
-| Pointer (không có pointer arithmetic) | 1 |
-| Struct, field, pointer-to-struct, literal | 2–5 |
-| Array vs slice, slice là *view* của array | 6–8 |
-| Slice literal, len/cap, nil slice, `make`, `append` | 9–15 |
+| Pointers (no pointer arithmetic) | 1 |
+| Structs, fields, pointer-to-struct, literals | 2–5 |
+| Array vs slice, a slice is a *view* of an array | 6–8 |
+| Slice literals, len/cap, nil slices, `make`, `append` | 9–15 |
 | `range` | 16–17 |
 | **Exercise: Slices** (`Pic`) | 18 |
 
-**Làm trong repo:**
-1. `day-3/pointers` — hàm nhận `int` vs `*int`, chứng minh khác biệt.
-2. `day-3/slices` — tạo 1 slice, cắt `s[1:3]`, sửa phần tử, quan sát slice gốc; in `len`/`cap` sau mỗi lần `append`.
+**Do in the repo:**
+1. `day-3/pointers` — functions that take `int` vs `*int`, and show the difference.
+2. `day-3/slices` — create a slice, cut `s[1:3]`, modify an element and observe the original slice; print `len`/`cap` after each `append`.
 3. `day-3/pic` — Exercise `Pic`.
 
-**Tự kiểm tra (đây là chỗ người mới hay vấp nhất):**
-- Hai slice cùng trỏ vào một array: sửa 1 cái, cái kia có đổi không?
-- Khi nào `append` cấp phát array mới?
-- Vì sao `for i, v := range s` sửa `v` không đổi `s`?
+**Self-check (this is where beginners trip up the most):**
+- Two slices point to the same array: if you change one, does the other change?
+- When does `append` allocate a new array?
+- Why doesn't changing `v` in `for i, v := range s` change `s`?
 
 ---
 
-## Day 4 — Map, closure, và method
+## Day 4 — Maps, closures, and methods
 
-**Tour:** `moretypes/19 → 27` + `methods/1 → 8` (~17 trang)
+**Tour:** `moretypes/19 → 27` + `methods/1 → 8` (~17 pages)
 
-| Học | Trang |
+| Learn | Pages |
 |---|---|
-| Map, literal, thêm/xóa/kiểm tra tồn tại (`v, ok := m[k]`) | moretypes/19–22 |
+| Maps, literals, insert/delete/check existence (`v, ok := m[k]`) | moretypes/19–22 |
 | **Exercise: Maps** (`WordCount`) | moretypes/23 |
-| Function là giá trị, closure | moretypes/24–25 |
+| Functions as values, closures | moretypes/24–25 |
 | **Exercise: Fibonacci closure** | moretypes/26 |
-| Method trên struct, pointer receiver vs value receiver | methods/1–8 |
+| Methods on structs, pointer receiver vs value receiver | methods/1–8 |
 
-**Làm trong repo:**
+**Do in the repo:**
 1. `day-4/wordcount` — Exercise `WordCount`.
 2. `day-4/fib` — Exercise Fibonacci closure.
-3. `day-4/shapes` — struct `Rect`, `Circle` với method `Area()`; thêm 1 method đổi kích thước dùng pointer receiver.
+3. `day-4/shapes` — structs `Rect` and `Circle` with an `Area()` method; add one method that resizes the shape using a pointer receiver.
 
-**Tự kiểm tra:**
-- Đọc key không tồn tại từ map trả về gì? Ghi vào map `nil` thì sao?
-- Khi nào bắt buộc dùng pointer receiver?
+**Self-check:**
+- What does reading a missing key from a map return? What happens when you write to a `nil` map?
+- When is a pointer receiver required?
 
 ---
 
-## Day 5 — Interface, error, Reader (ngày nặng nhất)
+## Day 5 — Interfaces, errors, Readers (the heaviest day)
 
-**Tour:** `methods/9 → 26` (18 trang, nhiều exercise)
+**Tour:** `methods/9 → 26` (18 pages, many exercises)
 
-| Học | Trang |
+| Learn | Pages |
 |---|---|
-| Interface, implement ngầm, interface value, nil interface | 9–13 |
-| `interface{}` / `any`, type assertion, type switch | 14–16 |
+| Interfaces, implicit implementation, interface values, nil interfaces | 9–13 |
+| `interface{}` / `any`, type assertions, type switches | 14–16 |
 | `Stringer` + **Exercise** | 17–18 |
 | `error` + **Exercise: Errors** | 19–20 |
 | `io.Reader` + **Exercise: Readers**, **rot13Reader** | 21–23 |
-| `image` + **Exercise: Images** (tùy chọn) | 24–25 |
+| `image` + **Exercise: Images** (optional) | 24–25 |
 
-**Làm trong repo:**
-1. `day-5/stringer` — `IPAddr` với `String()`.
-2. `day-5/errors` — `Sqrt` trả `ErrNegativeSqrt`; thêm 1 hàm dùng `errors.Is` / `errors.As`.
-3. `day-5/readers` — `MyReader` (stream ký tự `'A'`) và `rot13Reader`.
-4. Bỏ qua Images nếu quá giờ — không ảnh hưởng ngày sau.
+**Do in the repo:**
+1. `day-5/stringer` — `IPAddr` with `String()`.
+2. `day-5/errors` — `Sqrt` returns `ErrNegativeSqrt`; add one function that uses `errors.Is` / `errors.As`.
+3. `day-5/readers` — `MyReader` (a stream of `'A'` characters) and `rot13Reader`.
+4. Skip Images if you run out of time — it doesn't affect the later days.
 
-**Tự kiểm tra:**
-- Một interface chứa con trỏ nil có `== nil` không? Vì sao đây là bẫy?
-- Quy tắc idiom Go: "accept interfaces, return structs" nghĩa là gì?
+**Self-check:**
+- Does an interface holding a nil pointer `== nil`? Why is this a trap?
+- What does the Go idiom "accept interfaces, return structs" mean?
 
 ---
 
-## Day 6 — Generics và Concurrency cơ bản
+## Day 6 — Generics and basic concurrency
 
-**Tour:** `generics/1 → 3` + `concurrency/1 → 8` (11 trang)
+**Tour:** `generics/1 → 3` + `concurrency/1 → 8` (11 pages)
 
-| Học | Trang |
+| Learn | Pages |
 |---|---|
-| Type parameter, generic type | generics/1–2 |
-| Goroutine | concurrency/1 |
-| Channel, buffered channel, `range` + `close` | 2–4 |
+| Type parameters, generic types | generics/1–2 |
+| Goroutines | concurrency/1 |
+| Channels, buffered channels, `range` + `close` | 2–4 |
 | `select`, default case | 5–6 |
-| **Exercise: Equivalent Binary Trees** (chỉ cần goroutine + channel) | 7–8 |
+| **Exercise: Equivalent Binary Trees** (goroutines + channels are enough) | 7–8 |
 
-**Làm trong repo:**
-1. `day-6/generics` — `Map[T, U any]`, `Filter[T any]`, `Sum` với constraint `~int | ~float64`.
-2. `day-6/sum` — chia slice làm 2, 2 goroutine tính tổng, gửi qua channel (đúng ví dụ Tour, tự gõ lại).
-3. `day-6/fanin` — 2 producer + `select` để nhận từ cả hai kèm timeout (`time.After`).
+**Do in the repo:**
+1. `day-6/generics` — `Map[T, U any]`, `Filter[T any]`, and `Sum` with the constraint `~int | ~float64`.
+2. `day-6/sum` — split a slice in two, sum each half in its own goroutine, and send the results over a channel (exactly the Tour's example, retyped by hand).
+3. `day-6/fanin` — 2 producers + `select` to receive from both, with a timeout (`time.After`).
 4. `day-6/trees` — Exercise Binary Trees (`Walk`, `Same`).
 
-**Tự kiểm tra:**
-- Ai nên là bên `close` channel — sender hay receiver?
-- Gửi vào channel không có ai nhận thì chuyện gì xảy ra?
-- Chạy với `go run -race .` để thấy data race là gì (cố ý tạo một cái).
+**Self-check:**
+- Who should `close` a channel — the sender or the receiver?
+- What happens when you send on a channel that nobody receives from?
+- Run with `go run -race .` to see what a data race is (create one on purpose).
 
 ---
 
-## Day 7 — Concurrency nâng cao + dự án nhỏ + ôn tập
+## Day 7 — Advanced concurrency + a small project + review
 
-**Tour:** `concurrency/9 → 11` (3 trang)
+**Tour:** `concurrency/9 → 11` (3 pages)
 
-| Học | Trang |
+| Learn | Pages |
 |---|---|
 | `sync.Mutex` | 9 |
 | **Exercise: Web Crawler** | 10 |
 | Where to go from here | 11 |
 
-**Làm trong repo (buổi sáng — hoàn tất Tour):**
-1. `day-7/mutex` — bộ đếm an toàn với `sync.Mutex` (ví dụ `SafeCounter` của Tour); chạy thử có và không có mutex bằng `go run -race .`.
-2. `day-7/crawler` — Exercise Web Crawler dùng `sync.Mutex` hoặc channel. Đây là bài khó nhất Tour, dành riêng thời gian.
+**Do in the repo (morning — finish the Tour):**
+1. `day-7/mutex` — a thread-safe counter with `sync.Mutex` (the Tour's `SafeCounter` example); try it with and without the mutex using `go run -race .`.
+2. `day-7/crawler` — Exercise Web Crawler using `sync.Mutex` or channels. This is the hardest exercise in the Tour, so set aside dedicated time.
 
-**Dự án tốt nghiệp (buổi chiều, ~2 giờ): `day-7/linkcheck`**
-CLI nhận danh sách URL (flag hoặc file), kiểm tra song song bằng `net/http`, in bảng `URL | status | thời gian`.
-Dùng lại: struct, slice, map, error, goroutine, channel, mutex/WaitGroup, `defer resp.Body.Close()`.
-Thêm 1 file `linkcheck_test.go` với `httptest.NewServer` — đây là lần đầu bạn chạm `go test`.
+**Capstone project (afternoon, ~2 hours): `day-7/linkcheck`**
+A CLI that takes a list of URLs (flag or file), checks them in parallel with `net/http`, and prints a table of `URL | status | time`.
+It reuses: structs, slices, maps, errors, goroutines, channels, mutex/WaitGroup, `defer resp.Body.Close()`.
+Add a `linkcheck_test.go` file using `httptest.NewServer` — this is your first time touching `go test`.
 
-**Ôn tập cuối tuần:** đọc lại các mục "Tự kiểm tra" của 7 ngày, đánh dấu mục nào chưa trả lời được và quay lại đúng trang Tour đó.
+**End-of-week review:** reread the "Self-check" sections from all 7 days, mark the ones you can't answer yet, and go back to exactly those Tour pages.
 
 ---
 
-## Sau tuần này (không bắt buộc)
+## After this week (optional)
 
-| Mục tiêu | Tài liệu |
+| Goal | Resources |
 |---|---|
-| Cú pháp và idiom | [Effective Go](https://go.dev/doc/effective_go), [Go by Example](https://gobyexample.com) |
-| Test | `go test`, table-driven tests, `testing` package |
-| Thư viện chuẩn hay dùng | `net/http`, `encoding/json`, `context`, `flag`, `os`, `bufio` |
-| Dự án tiếp theo | REST API nhỏ (todo) dùng `net/http` + `encoding/json` |
+| Syntax and idioms | [Effective Go](https://go.dev/doc/effective_go), [Go by Example](https://gobyexample.com) |
+| Testing | `go test`, table-driven tests, the `testing` package |
+| Commonly used standard library | `net/http`, `encoding/json`, `context`, `flag`, `os`, `bufio` |
+| Next project | A small REST API (todo) using `net/http` + `encoding/json` |
 
-## Mẹo giữ nhịp
+## Tips for keeping pace
 
-- Gõ lại code, đừng copy từ Playground.
-- Mỗi bài chạy `gofmt` và `go vet` — hình thành thói quen sớm.
-- Kẹt > 20 phút ở 1 exercise: xem lời giải chính thức tại [golang/website/tour/solutions](https://github.com/golang/website/tree/master/_content/tour/solutions), nhưng tự viết lại sau khi hiểu.
-- Trễ 1 ngày không sao: Day 4 và Day 5 là hai ngày hay dồn nhất, dùng ngày 7 buổi sáng làm bù.
+- Retype the code, don't copy it from the Playground.
+- Run `gofmt` and `go vet` on every exercise — build the habit early.
+- Stuck for more than 20 minutes on an exercise: look at the official solution at [golang/website/tour/solutions](https://github.com/golang/website/tree/master/_content/tour/solutions), but rewrite it yourself once you understand it.
+- Falling a day behind is fine: Days 4 and 5 are the ones that tend to pile up, so use the morning of Day 7 to catch up.

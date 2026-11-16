@@ -1,24 +1,24 @@
 # golearn
 
-Repo học Go trong 7 ngày, theo [A Tour of Go](https://go.dev/tour/welcome/1).
+Learn Go in 7 days, following [A Tour of Go](https://go.dev/tour/welcome/1).
 
-Nguyên tắc: đọc Tour để hiểu, rồi gõ lại code trong repo này để nhớ. Không chỉ chạy trên Playground.
+Rule of thumb: read the Tour to understand, then retype the code in this repo to remember it. Don't just run it on the Playground.
 
-## Lộ trình
+## Roadmap
 
-| Ngày | Chủ đề |
+| Day | Topic |
 |---|---|
-| Day 1 | Nền tảng: package, biến, kiểu, hàm |
-| Day 2 | Luồng điều khiển |
-| Day 3 | Pointer, struct, array, slice |
-| Day 4 | Map, closure, method |
-| Day 5 | Interface, error, Reader |
-| Day 6 | Generics và concurrency cơ bản |
-| Day 7 | Concurrency nâng cao, dự án nhỏ, ôn tập |
+| Day 1 | Basics: packages, variables, types, functions |
+| Day 2 | Flow control |
+| Day 3 | Pointers, structs, arrays, slices |
+| Day 4 | Maps, closures, methods |
+| Day 5 | Interfaces, errors, Readers |
+| Day 6 | Generics and basic concurrency |
+| Day 7 | Advanced concurrency, a small project, review |
 
-Chi tiết từng ngày xem [ROADMAP.md](ROADMAP.md).
+See [ROADMAP.md](ROADMAP.md) for the details of each day.
 
-## Cấu trúc
+## Structure
 
 ```
 golearn/
@@ -27,7 +27,7 @@ golearn/
   README.md
   ROADMAP.md
   day-1/
-    README.md      hướng dẫn và checklist của ngày
+    README.md      guide and checklist for the day
     hello/main.go
     vars/main.go
     swap/main.go
@@ -35,33 +35,33 @@ golearn/
   day-2/ ...
 ```
 
-Mỗi ngày có một thư mục `day-N/`. Mỗi bài tập là một thư mục con có `main.go` riêng, là một chương trình độc lập.
+Each day has its own `day-N/` directory. Each exercise is a subdirectory with its own `main.go`, which is a standalone program.
 
-## Yêu cầu
+## Requirements
 
-- Go 1.27 trở lên (kiểm tra bằng `go version`)
+- Go 1.27 or later (check with `go version`)
 
-## Cách chạy
+## Running
 
-Chạy từ thư mục gốc repo:
+Run from the repo root:
 
 ```sh
 go run ./day-1/hello
 go run ./day-1/vars
 ```
 
-Lưu ý phải có `./` ở đầu. Nếu viết `go run day-1/hello`, Go hiểu đó là đường dẫn import chứ không phải thư mục.
+Note the leading `./`. If you write `go run day-1/hello`, Go treats it as an import path, not a directory.
 
-Kiểm tra định dạng và lỗi thường gặp sau mỗi bài:
+After each exercise, check formatting and common mistakes:
 
 ```sh
 gofmt -l .
 go vet ./...
 ```
 
-## Cách học mỗi bài
+## How to work through each exercise
 
-1. Đọc trang Tour tương ứng.
-2. Mở `main.go` của bài, làm lần lượt từng `TODO`.
-3. Chạy và so sánh với phần "Kết quả mong đợi" ở đầu file.
-4. Cuối ngày commit: `git commit -m "day N: ..."`.
+1. Read the matching Tour page.
+2. Open the exercise's `main.go` and work through each `TODO` in order.
+3. Run it and compare against the expected-output block at the top of the file (headed `Kết quả mong đợi`).
+4. At the end of the day, commit: `git commit -m "day N: ..."`.
