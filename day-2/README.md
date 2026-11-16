@@ -1,65 +1,65 @@
-# Day 2 — Luồng điều khiển
+# Day 2 — Flow control
 
-**Thời gian:** ~2–3 giờ · **Tour:** [flowcontrol/1 → 14](https://go.dev/tour/flowcontrol/1)
+**Time:** ~2–3 hours · **Tour:** [flowcontrol/1 → 14](https://go.dev/tour/flowcontrol/1)
 
-Cách làm giống Day 1: **đọc trang Tour, mở `main.go`, làm từng `TODO`, chạy, so với "Kết quả mong đợi"**.
-Gõ tay, không copy từ Playground. Kẹt hơn 20 phút thì mở phần *Gợi ý* (không phải lời giải), vẫn kẹt thì hỏi mình.
+Same routine as Day 1: **read the Tour page, open `main.go`, work through each `TODO`, run it, compare with the expected output (headed `Kết quả mong đợi` in the file)**.
+Type it by hand, don't copy from the Playground. If you're stuck for more than 20 minutes, open the *Hints* section (not the solution), and if you're still stuck, ask me.
 
 ---
 
-## Bước 0 — Kiểm tra module
+## Step 0 — Check the module
 
-Day 2 dùng chung `go.mod` ở **thư mục gốc repo** (`golearn/`) với Day 1, không tạo mới.
-Kiểm tra bằng cách chạy từ thư mục gốc:
+Day 2 shares the `go.mod` in the **repo root** (`golearn/`) with Day 1, so don't create a new one.
+Check by running from the repo root:
 
 ```sh
 go run ./day-2/sqrt
 ```
 
-Chưa in gì và không có lỗi là đúng. Nếu báo `go.mod file not found`, bạn cần chuyển `go.mod` và `go.sum` từ `day-1/` lên thư mục gốc:
+It's correct if it prints nothing and shows no errors. If it reports `go.mod file not found`, you need to move `go.mod` and `go.sum` from `day-1/` to the repo root:
 
 ```sh
 git mv day-1/go.mod day-1/go.sum .
 ```
 
-### Ba lệnh dùng sau mỗi bài
+### Three commands to run after every exercise
 
 ```sh
-go run ./day-2/<tên-bài>   # chạy
-gofmt -l day-2             # liệt kê file chưa đúng format (không in gì là tốt). Sửa: gofmt -w day-2
-go vet ./day-2/...         # bắt lỗi hay gặp
+go run ./day-2/<exercise-name>   # run
+gofmt -l day-2                   # list files that aren't formatted correctly (printing nothing is good). Fix: gofmt -w day-2
+go vet ./day-2/...               # catch common mistakes
 ```
 
 ---
 
-## Bài 1 — `sqrt` · vòng lặp và hàm (Newton)
+## Exercise 1 — `sqrt` · loops and functions (Newton)
 
-**Đọc trước:** [flowcontrol/1](https://go.dev/tour/flowcontrol/1) → [flowcontrol/8](https://go.dev/tour/flowcontrol/8)
+**Read first:** [flowcontrol/1](https://go.dev/tour/flowcontrol/1) → [flowcontrol/8](https://go.dev/tour/flowcontrol/8)
 **File:** [sqrt/main.go](sqrt/main.go)
 
-**Kết quả mong đợi:** `Sqrt(2)` gần bằng `math.Sqrt(2)` (khoảng `1.41421356237`), chênh lệch cỡ `1e-16`.
+**Expected output:** `Sqrt(2)` is close to `math.Sqrt(2)` (about `1.41421356237`), with a difference on the order of `1e-16`.
 
-**Làm:** tự cài căn bậc hai bằng phương pháp Newton, rồi so với `math.Sqrt`. Sau đó nâng cấp từ "lặp đúng 10 lần" sang "lặp đến khi đủ chính xác".
+**Do:** implement the square root yourself using Newton's method, then compare it with `math.Sqrt`. After that, upgrade it from "loop exactly 10 times" to "loop until it's accurate enough".
 
 <details>
-<summary>Gợi ý</summary>
+<summary>Hints</summary>
 
-- Vòng `for` đủ 3 phần: `for i := 0; i < 10; i++ { ... }`.
-- Vòng "như while": bỏ phần khởi tạo và phần sau, chỉ giữ điều kiện: `for điều_kiện { ... }`. Go không có từ khóa `while`.
-- Cập nhật Newton: `z -= (z*z - x) / (2 * z)`. Với `x = 2`, chỉ cần vài lần lặp là hội tụ.
-- Để so "thay đổi nhỏ", lưu giá trị cũ vào biến, trừ cho giá trị mới rồi lấy trị tuyệt đối bằng `math.Abs`.
-- Giá trị in ra có thể khác `math.Sqrt` ở chữ số cuối. So sánh số thực bằng `==` là thói quen xấu, hãy so hiệu với một ngưỡng nhỏ.
+- The full 3-part `for` loop: `for i := 0; i < 10; i++ { ... }`.
+- The "while-style" loop: drop the init and post statements and keep only the condition: `for condition { ... }`. Go has no `while` keyword.
+- Newton update: `z -= (z*z - x) / (2 * z)`. With `x = 2`, it converges in just a few iterations.
+- To check for a "small change", save the old value in a variable, subtract the new value from it, then take the absolute value with `math.Abs`.
+- The printed value may differ from `math.Sqrt` in the last digits. Comparing floating-point numbers with `==` is a bad habit, so compare the difference against a small threshold instead.
 
 </details>
 
 ---
 
-## Bài 2 — `fizzbuzz` · switch không điều kiện
+## Exercise 2 — `fizzbuzz` · switch with no condition
 
-**Đọc trước:** [flowcontrol/9](https://go.dev/tour/flowcontrol/9) → [flowcontrol/11](https://go.dev/tour/flowcontrol/11) (và [flowcontrol/5](https://go.dev/tour/flowcontrol/5) → [7](https://go.dev/tour/flowcontrol/7) cho `if`)
+**Read first:** [flowcontrol/9](https://go.dev/tour/flowcontrol/9) → [flowcontrol/11](https://go.dev/tour/flowcontrol/11) (and [flowcontrol/5](https://go.dev/tour/flowcontrol/5) → [7](https://go.dev/tour/flowcontrol/7) for `if`)
 **File:** [fizzbuzz/main.go](fizzbuzz/main.go)
 
-**Kết quả mong đợi** (1 đến 15):
+**Expected output** (1 to 15):
 
 ```
 1
@@ -79,26 +79,26 @@ Fizz
 FizzBuzz
 ```
 
-**Làm:** in 1 đến 15 theo luật FizzBuzz, bằng `switch` không có điều kiện. TODO 2 là thử đảo thứ tự `case` để thấy `switch` dừng ở nhánh đúng đầu tiên.
+**Do:** print 1 to 15 following the FizzBuzz rules, using a `switch` with no condition. TODO 2 is to swap the order of the `case`s to see that `switch` stops at the first matching branch.
 
 <details>
-<summary>Gợi ý</summary>
+<summary>Hints</summary>
 
-- `switch` không điều kiện viết gọn thay cho chuỗi `if / else if`: `switch { case i%15 == 0: ... }`.
-- Go **không** cần `break` ở cuối mỗi `case`, nó tự dừng sau nhánh đã chạy.
-- Phải kiểm tra chia hết cho 15 **trước** 3 và 5, nếu không `15` sẽ rơi vào nhánh `Fizz`.
-- `if` có thể kèm câu lệnh khởi tạo: `if r := i % 3; r == 0 { ... }`. Biến `r` chỉ tồn tại trong khối if/else đó.
+- A `switch` with no condition is a tidy replacement for an `if / else if` chain: `switch { case i%15 == 0: ... }`.
+- Go does **not** need a `break` at the end of each `case`; it stops automatically after the branch that ran.
+- You must check divisibility by 15 **before** 3 and 5, otherwise `15` will fall into the `Fizz` branch.
+- An `if` can have an init statement: `if r := i % 3; r == 0 { ... }`. The variable `r` only exists inside that if/else block.
 
 </details>
 
 ---
 
-## Bài 3 — `defer` · thứ tự chạy LIFO
+## Exercise 3 — `defer` · LIFO execution order
 
-**Đọc trước:** [flowcontrol/12](https://go.dev/tour/flowcontrol/12) → [flowcontrol/13](https://go.dev/tour/flowcontrol/13)
+**Read first:** [flowcontrol/12](https://go.dev/tour/flowcontrol/12) → [flowcontrol/13](https://go.dev/tour/flowcontrol/13)
 **File:** [defer/main.go](defer/main.go)
 
-**Kết quả mong đợi** (TODO 1 và 2):
+**Expected output** (TODO 1 and 2):
 
 ```
 start
@@ -110,41 +110,41 @@ end loop
 0
 ```
 
-**Làm:** dùng `defer` trong vòng lặp, **đoán trước** thứ tự output rồi mới chạy. Sau đó thử đoạn code ở TODO 3 để hiểu `defer` đánh giá tham số lúc nào.
+**Do:** use `defer` in a loop, **guess** the output order before running it. Then try the code in TODO 3 to understand when `defer` evaluates its arguments.
 
 <details>
-<summary>Gợi ý</summary>
+<summary>Hints</summary>
 
-- Lệnh `defer` hoãn việc **gọi hàm** đến khi hàm bao ngoài (ở đây là `main`) kết thúc.
-- Nhiều `defer` được xếp vào một ngăn xếp: cái đến sau chạy trước (LIFO).
-- **Tham số** của hàm bị hoãn được tính ngay khi gặp `defer`, không chờ đến lúc chạy. Đó là lý do TODO 3 in `deferred x = 1` dù `x` sau đó đổi thành `100`.
-- Thực tế `defer` dùng nhiều nhất để dọn dẹp: đóng file, giải phóng khóa (mutex), đóng kết nối.
+- A `defer` statement postpones the **function call** until the surrounding function (here, `main`) returns.
+- Multiple `defer`s are pushed onto a stack: the last one in runs first (LIFO).
+- The **arguments** of a deferred function are evaluated immediately when the `defer` is reached, not when it runs. That's why TODO 3 prints `deferred x = 1` even though `x` is later changed to `100`.
+- In practice `defer` is used most for cleanup: closing files, releasing locks (mutexes), closing connections.
 
 </details>
 
 ---
 
-## Cuối ngày
+## End of the day
 
-Đánh dấu khi làm xong:
+Tick these off when you're done:
 
-- [ ] `sqrt`, `fizzbuzz`, `defer` đều chạy đúng kết quả mong đợi
-- [ ] `gofmt -l day-2` không in gì, `go vet ./day-2/...` không báo lỗi
-- [ ] Đọc hết Tour `flowcontrol` đến trang *Congratulations!*
+- [ ] `sqrt`, `fizzbuzz` and `defer` all run and match the expected output
+- [ ] `gofmt -l day-2` prints nothing and `go vet ./day-2/...` reports no errors
+- [ ] Read the whole Tour `flowcontrol` module through to the *Congratulations!* page
 
-**Tự kiểm tra** (trả lời được mà không nhìn lại):
+**Self-check** (answer without looking back):
 
-1. Go không có `while`. Viết lại một vòng `while` bằng `for`.
-2. Vòng `for` có 3 dạng nào? Dạng nào là vòng lặp vô hạn?
-3. Biến khai báo trong câu lệnh khởi tạo của `if` sống đến đâu?
-4. Vì sao `switch` trong Go không cần `break`? Khi nào bạn muốn chạy tiếp sang case sau (từ khóa `fallthrough`)?
-5. `defer` đánh giá **tham số** lúc nào và chạy **hàm** lúc nào?
-6. Ba lệnh `defer` liên tiếp chạy theo thứ tự nào?
+1. Go has no `while`. Rewrite a `while` loop using `for`.
+2. What are the 3 forms of the `for` loop? Which one is the infinite loop?
+3. How long does a variable declared in an `if` init statement live?
+4. Why doesn't `switch` in Go need `break`? When would you want to continue into the next case (the `fallthrough` keyword)?
+5. When does `defer` evaluate its **arguments**, and when does it run the **function**?
+6. In what order do three consecutive `defer` statements run?
 
-Rồi commit:
+Then commit:
 
 ```sh
 git add -A && git commit -m "day 2: control flow"
 ```
 
-Xong Day 2, quay lại [ROADMAP.md](../ROADMAP.md) mở Day 3.
+After Day 2, go back to [ROADMAP.md](../ROADMAP.md) and open Day 3.
