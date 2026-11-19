@@ -24,25 +24,74 @@
 package main
 
 // TODO 0: import "fmt"
+import (
+	"fmt"
+)
 
 // TODO 1: trong main, dùng vòng for từ 1 đến 15 và in theo luật:
-//           - chia hết cho 15  → in "FizzBuzz"
-//           - chia hết cho 3   → in "Fizz"
-//           - chia hết cho 5   → in "Buzz"
-//           - còn lại          → in chính số đó
-//         Dùng switch KHÔNG có điều kiện (flowcontrol/11):
-//             switch {
-//             case i%15 == 0:
-//                 ...
-//             }
+//   - chia hết cho 15  → in "FizzBuzz"
+//   - chia hết cho 3   → in "Fizz"
+//   - chia hết cho 5   → in "Buzz"
+//   - còn lại          → in chính số đó
+//     Dùng switch KHÔNG có điều kiện (flowcontrol/11):
+//     switch {
+//     case i%15 == 0:
+//     ...
+//     }
+func Fizz1() {
+	for i := 1; i <= 15; i++ {
+		switch {
+		case i%15 == 0:
+			fmt.Println("FizzBuzz")
+		case i%3 == 0:
+			fmt.Println("Fizz")
+		case i%5 == 0:
+			fmt.Println("Buzz")
+		default:
+			fmt.Println(i)
+		}
+	}
+}
 
 // TODO 2: đổi thứ tự các case (đặt case i%3 == 0 lên trước i%15 == 0).
-//         Chạy lại và xem số 15 in ra gì. Vì sao? Nhớ rằng switch dừng ở case đúng đầu tiên,
-//         không cần break (flowcontrol/9). Sau đó hoàn tác.
+//
+//	Chạy lại và xem số 15 in ra gì. Vì sao? Nhớ rằng switch dừng ở case đúng đầu tiên,
+//	không cần break (flowcontrol/9). Sau đó hoàn tác.
+func Fizz2() {
+	for i := 1; i <= 15; i++ {
+		switch {
+		case i%3 == 0:
+			fmt.Println("Fizz")
+		case i%15 == 0:
+			fmt.Println("FizzBuzz")
+		case i%5 == 0:
+			fmt.Println("Buzz")
+		default:
+			fmt.Println(i)
+		}
+	}
+}
 
 // TODO 3 (nâng cấp): dùng if với câu lệnh khởi tạo (flowcontrol/6), ví dụ
-//             if r := i % 3; r == 0 { ... }
-//         để viết lại một nhánh. Biến r chỉ sống trong phạm vi if/else đó.
+//
+//	    if r := i % 3; r == 0 { ... }
+//	để viết lại một nhánh. Biến r chỉ sống trong phạm vi if/else đó.
+func Fizz3() {
+	for i := 1; i <= 15; i++ {
+		switch {
+		case i%15 == 0:
+			fmt.Println("FizzBuzz")
+		case i%5 == 0:
+			fmt.Println("Buzz")
+		default:
+			if r := i % 3; r == 0 {
+				fmt.Println("Fizz")
+			} else {
+				fmt.Println(i)
+			}
+		}
+	}
+}
 
 func main() {
 }
